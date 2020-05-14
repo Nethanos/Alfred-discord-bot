@@ -1,0 +1,20 @@
+{
+  "name": "alfred-bot",
+  "version": "1.0.0",
+  "description": "I'm a britain bot, Sir.",
+  "main": "mansion.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon mansion.js"
+  },
+  "author": "Adeildo Neto",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
