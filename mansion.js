@@ -1,7 +1,7 @@
 const express = require('express');
 const discordClient = require('./config/discord-config');
 
-const markInstanceToUse = require('./managers/instances-manager');
+const saveUseRequest = require('./managers/server-manager');
 
 discordClient.on('message', msg => {
     let users = msg.mentions.users;
@@ -11,7 +11,7 @@ discordClient.on('message', msg => {
         const [mention, targetOrder, desiredServer] = msg.content.split(' ');
 
         if(targetOrder === 'usando') {
-            markInstanceToUse('verify', desiredServer)
+            saveUseRequest(desiredServer)
         }
 
 
