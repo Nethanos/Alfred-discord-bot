@@ -21,8 +21,15 @@ async function saveUseRequest(serverName, discordMessage, desiredOrder) {
 async function whichIsInUse(discordMessage, serverName) {
     const response = await findServerByName(serverName); 
       if(response.length === 0) {
-        discordMessage.reply(`Nenhum verify do ${serverName} está marcado para uso no momento!`)
+        discordMessage.reply(`Nenhum verify do ${serverName} está marcado para uso no momento!`);
+        return;
       }
+       const usedServerNames = [];
+      response.map(serverName => usedServerNames.push(serverName.name));
+
+       const usedServerNamesMessage = usedServerNames.join(' ');
+
+      discordMessage.reply(`Os servidores em uso do ${serverName} são: ${usedServerNamesMessage}`)
 }
 
 

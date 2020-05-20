@@ -35,7 +35,6 @@ discordClient.on('message', msg => {
         if (desiredOrder === 'which') {
             const validServerName = serverNameList.find(serverName => serverName == desiredServer);
 
-            console.log(validServerName)
             if (!validServerName) {
                 msg.reply("Servidor não encontrado.")
                 return;
