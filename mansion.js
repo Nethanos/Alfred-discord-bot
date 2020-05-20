@@ -3,6 +3,20 @@ const discordClient = require('./config/discord-config');
 const { serverInstanceList, serverNameList } = require('./config/server-names');
 const orderList = require('./config/known-orders');
 const { saveUseRequest, whichIsInUse } = require('./managers/server-manager');
+require('dotenv/config');
+
+
+const application = express();
+
+
+application.listen(process.env.PORT, () => {
+    console.log(`Listening at ${process.env.PORT}`)
+})
+
+
+application.get('/', (req, res) => {
+    res.json("Hello, Sir.");
+})
 
 discordClient.on('message', msg => {
     let users = msg.mentions.users;

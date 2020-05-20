@@ -5,7 +5,8 @@
   "main": "mansion.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon mansion.js"
+    "dev": "nodemon mansion.js",
+    "start": "node mansion.js"
   },
   "author": "Adeildo Neto",
   "license": "ISC",
