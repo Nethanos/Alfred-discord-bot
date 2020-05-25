@@ -1,4 +1,4 @@
-orderList = ["use", "which", "release"];
+orderList = ["use", "which", "release", "help"];
 
 
 module.exports = orderList;
