@@ -46,6 +46,7 @@ discordClient.on('message', msg => {
 
         if (desiredOrder === 'help') {
             showHelp(msg);
+            return;
         }
 
         const validServerInstance = serverInstanceList.find(serverInstance => serverInstance === desiredServer);
