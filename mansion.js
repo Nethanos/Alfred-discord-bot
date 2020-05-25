@@ -3,6 +3,7 @@ const discordClient = require('./config/discord-config');
 const { serverInstanceList, serverNameList } = require('./config/server-names');
 const orderList = require('./config/known-orders');
 const { saveUseRequest, whichIsInUse } = require('./managers/server-manager');
+const { showHelp } = require('./managers/alfred-manager');
 require('dotenv/config');
 
 
@@ -43,6 +44,9 @@ discordClient.on('message', msg => {
             return;
         }
 
+        if (desiredOrder === 'help') {
+            showHelp(msg);
+        }
 
         const validServerInstance = serverInstanceList.find(serverInstance => serverInstance === desiredServer);
 
