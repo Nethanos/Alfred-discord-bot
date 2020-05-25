@@ -3,6 +3,7 @@ const discordClient = require('./config/discord-config');
 const { serverInstanceList, serverNameList } = require('./config/server-names');
 const orderList = require('./config/known-orders');
 const { saveUseRequest, whichIsInUse } = require('./managers/server-manager');
+const { showHelp } = require('./managers/alfred-manager');
 require('dotenv/config');
 
 
@@ -44,12 +45,8 @@ discordClient.on('message', msg => {
         }
 
         if (desiredOrder === 'help') {
-            msg.reply("O Alfred possui as seguintes funções:\n" + 
-            "which nomeDoProjeto -> Exibe os verifys em uso ou que estão subindo para verificação\n" +
-            "use nomeDoVerify -> Adiciona o verify escolhido na lista de verifys em uso no projeto\n" +
-            "release nomeDoVerify -> Remove o verify escolhido da lista de verifys em uso no projeto\n")
+            showHelp(msg);
         }
-
 
         const validServerInstance = serverInstanceList.find(serverInstance => serverInstance === desiredServer);
 
