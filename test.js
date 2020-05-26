@@ -1,15 +1,16 @@
 const database = require('./config/database-config');
 
-const Server = require('./models/server-model');
+const Server = require('./models/server.model');
+const {DiscordUser} = require('./models/discord-user.model');
+const {findServerByName, getServerByName} = require('./managers/server-manager');
 
 
 
 async function loadDatabase() {
 
     for(let i = 1; i <=5; i++) {
-        let name = `cte-verify0${i}`
+        let name = `ar-verify0${i}`
         let isInUse = false;
-
         serverModel = new Server({ name, isInUse})
 
         console.log(serverModel);
@@ -21,5 +22,5 @@ async function loadDatabase() {
     }
 }
 
-loadDatabase();
 
+loadDatabase();
