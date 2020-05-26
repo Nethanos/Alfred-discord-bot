@@ -13,4 +13,4 @@ A bot to centralize our operation.
  -----------------------------------------------------------------
  
  # Supported projects:
- [t3pl, hub, cash, cte, tms]
+ [t3pl, hub, cash, cte, tms, edi, ar, accounts]
