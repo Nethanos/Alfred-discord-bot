@@ -24,6 +24,8 @@ discordClient.on('message', msg => {
 
     if (users.find((user) => user == discordClient.user)) {
 
+        const author = msg.author;   
+        
         const [mention, targetOrder, desiredServer] = msg.content.split(' ');
 
         const desiredOrder = orderList.find(order => order === targetOrder);
@@ -58,11 +60,11 @@ discordClient.on('message', msg => {
         } else {
 
             if (desiredOrder === 'use') {
-                saveUseRequest(desiredServer, msg, true);
+                saveUseRequest(desiredServer, msg, true, author);
             }
 
             if (desiredOrder === 'release') {
-                saveUseRequest(desiredServer, msg, false);
+                saveUseRequest(desiredServer, msg, false, author);
             }
 
         }

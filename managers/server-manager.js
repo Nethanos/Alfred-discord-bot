@@ -1,4 +1,5 @@
-const Server = require('../models/server-model');
+const Server = require('../models/server.model');
+const {DiscordUser} = require('../models/discord-user.model');
 
 
 const successFulRequestMessage = "Servidor marcado para uso. Quando terminar, por favor, use o comando release nomeDoServidor!";
@@ -10,11 +11,11 @@ const serverInUseMessage = "Servidor já está em uso.";
 const serverNotInUse = "O servidor não está marcado para uso!";
 
 
-async function saveUseRequest(serverName, discordMessage, desiredOrder) {
+async function saveUseRequest(serverName, discordMessage, desiredOrder, author) {
 
     const serverRequested = await getServerByName(serverName);
 
-    desiredOrder ? setToUse(serverRequested, discordMessage) : setToRelease(serverRequested, discordMessage);
+    desiredOrder ? setToUse(serverRequested, discordMessage, author) : setToRelease(serverRequested, discordMessage, author);
 
 }
 
@@ -25,12 +26,19 @@ async function whichIsInUse(discordMessage, serverName) {
         return;
       }
        const usedServerNames = [];
-      response.map(serverName => usedServerNames.push(serverName.name));
 
-       const usedServerNamesMessage = usedServerNames.join(' ');
+       let message = `Os servidores em uso do **${serverName.toUpperCase()}** são: \n`;
 
-      discordMessage.reply(`Os servidores em uso do ${serverName} são: ${usedServerNamesMessage}`)
-}
+       let serverMessages = '';
+
+      response.map(server => {
+        serverMessages += ` \`${server.name} usado por ${server.user.username}\` \n`;
+      });
+
+      discordMessage.reply(message += serverMessages);
+    }
+
+
 
 
 function getServerByName(serverName) {
@@ -43,23 +51,34 @@ function findServerByName(serverName) {
     return Server.find({name: regex, isInUse: true});
 }
 
-function updateServer(serverRequested, desiredOrder) {
-    return serverRequested.updateOne({ $set: { isInUse: desiredOrder } });
+function updateServer(serverRequested, desiredOrder, author) {
+    
+    serverRequested.isInUse = desiredOrder;
+    if(author){
+        const user = new DiscordUser({discordId: author.id, username: author.username});
+
+        user.discordId = author.id;
+    
+        user.username = author.username;
+        serverRequested.user = author;
+    }
+
+    return serverRequested.save();
 }
 
 
-async function setToUse(serverRequested, discordMessage) {
+async function setToUse(serverRequested, discordMessage, author) {
 
     if (serverRequested.isInUse) {
         discordMessage.reply(serverInUseMessage);
         return;
     }
 
-    const response = await updateServer(serverRequested, true);
+    const response = await updateServer(serverRequested, true, author);
 
-    if (response.ok) {
+    if (!response.errors) {
         discordMessage.reply(successFulRequestMessage);
-    }
+    }   
 
 }
 
@@ -73,10 +92,10 @@ async function setToRelease(serverRequested, discordMessage) {
 
     const response = await updateServer(serverRequested, false);
 
-    if (response.ok) {
+    if (!response.errors) {
         discordMessage.reply(successFulReleaseMessage);
     }
 
 }
 
-module.exports = { saveUseRequest, whichIsInUse };
+module.exports = { saveUseRequest, whichIsInUse, findServerByName, getServerByName };
