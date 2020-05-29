@@ -10,6 +10,8 @@ const serverInUseMessage = "Servidor já está em uso.";
 
 const serverNotInUse = "O servidor não está marcado para uso!";
 
+const notYourServer = "Você não pode dar release em um servidor que não está usando!";
+
 
 async function saveUseRequest(serverName, discordMessage, desiredOrder, author) {
 
@@ -83,10 +85,13 @@ async function setToUse(serverRequested, discordMessage, author) {
 }
 
 
-async function setToRelease(serverRequested, discordMessage) {
+async function setToRelease(serverRequested, discordMessage, author) {
 
     if (!serverRequested.isInUse) {
         discordMessage.reply(serverNotInUse);
+        return;
+    } else if(serverRequested.user.username != author.user.username) {
+        discordMessage.reply(notYourServer);
         return;
     }
 
