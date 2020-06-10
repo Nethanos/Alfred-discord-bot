@@ -90,7 +90,7 @@ async function setToRelease(serverRequested, discordMessage, author) {
     if (!serverRequested.isInUse) {
         discordMessage.reply(serverNotInUse);
         return;
-    } else if(serverRequested.user.username != author.user.username) {
+    } else if(serverRequested.user.username !== author.username) {
         discordMessage.reply(notYourServer);
         return;
     }
